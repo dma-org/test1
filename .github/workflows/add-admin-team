@@ -1,0 +1,29 @@
+name: Add Admins Team
+
+on:
+  repository:
+    types: [created]
+
+jobs:
+  add-admins:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Add Admins team with admin privileges
+        run: |
+          # Replace ORG_NAME with your organization name
+          # Replace ADMINS_TEAM_NAME with your "Admins" team name
+
+          ORG_NAME="<your_organization_name>"
+          ADMINS_TEAM_NAME="Admins"
+
+          TEAM_ID=$(gh team list --org $ORG_NAME --json id --grep $ADMINS_TEAM_NAME | jq -r '.[0].id')
+          gh team add $TEAM_ID --repo $GITHUB_REPOSITORY --permission admin
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        if: success()
+
