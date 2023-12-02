@@ -1,26 +1,12 @@
 name: Add Admins Team
 
 on:
-  repository:
-    types: [created]
+  workflow_dispatch:
 
 jobs:
   add-admins:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Add Admins team with admin privileges
-        run: |
-          ORG_NAME="dma-org"
-          ADMINS_TEAM_NAME="Admins"
-
-          TEAM_ID=$(gh team list --org $ORG_NAME --json id --grep $ADMINS_TEAM_NAME | jq -r '.[0].id')
-          gh team add $TEAM_ID --repo $GITHUB_REPOSITORY --permission admin
-        env:
-          GITHUB_TOKEN: ${{ secrets.GHB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-        if: success()
-
+      - name: Hello World
+        run: echo "Hello World"
